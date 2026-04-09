@@ -51,14 +51,20 @@ function draw() {
     b.angle += b.speed;
     let naturalY = b.homeY + sin(b.angle) * b.amplitude;
     
+    // If the mouse is on the canvas, the first bubble follows the mouse, and the others follow the one in front of them with a slight delay. If the mouse is off the canvas, all bubbles return to their home positions.
     if (mouseOnCanvas) {
       if (i === 0) {
         b.drawX = lerp(b.drawX, mouseX, 0.1);
         b.drawY = lerp(b.drawY, mouseY, 0.1);
+
+        
       } else {
         let speed = 0.1 - i * 0.01;
         b.drawX = lerp(b.drawX, bubbles[i - 1].drawX, speed);
         b.drawY = lerp(b.drawY, bubbles[i - 1].drawY, speed);
+
+        // Add a slight vertical oscillation to the following bubbles for a more dynamic look
+        b.drawY += sin(b.angle * 2) * 5;
       }
     } else {
       b.drawX = lerp(b.drawX, b.homeX, 0.03);
